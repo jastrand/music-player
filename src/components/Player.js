@@ -18,6 +18,11 @@ const playSongHandler = () => {
     return `${minutes}:${secondsWithZero}`
   }
 
+  const dragHandler = (e) => {
+    audioRef.current.currentTime = e.target.value
+    setSongInfo({...songInfo, currentTime: e.target.value})
+  }
+
 const timeUpdateHandler = (e) => {
   const current = e.target.currentTime
   const duration = e.target.duration
@@ -33,16 +38,26 @@ const [songInfo, setSongInfo] = useState({
       <div className="time-control">
         <p>{getTime(songInfo.currentTime)}</p>
         <input 
-        min={0} 
-        max={songInfo.duration} 
-        value={songInfo.currentTime} 
-        type="range"
+          min={0} 
+          max={songInfo.duration} 
+          value={songInfo.currentTime} 
+          onChange={dragHandler}
+          type="range"
         />
         <p>{getTime(songInfo.duration)}</p>
       </div>
       <div className="play-control">
-        <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />
-        <FontAwesomeIcon onClick={playSongHandler} className="play" size="2x" icon={faPlay} />
+        <FontAwesomeIcon 
+          className="skip-back" 
+          size="2x" 
+          icon={faAngleLeft} 
+        />
+        <FontAwesomeIcon 
+          onClick={playSongHandler} 
+          className="play" 
+          size="2x" 
+          icon={faPlay} 
+        />
         <FontAwesomeIcon className="skip-forward" size="2x" icon={faAngleRight} />
       </div>
       <audio 
